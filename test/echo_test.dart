@@ -9,14 +9,12 @@ import 'package:test/test.dart';
 
 void main() {
   late HttpServer server;
-  late dio.HttpClientAdapter client;
-  late Handler handler;
+  late dio.Dio client;
   final host = 'localhost';
   final port = 8000;
 
   setUp(() async {
-    client = dio.HttpClientAdapter();
-    handler = ClientWrapper(client);
+    client = dio.Dio();
     server = await HttpServer.bind(host, port);
     server.listen((rq) async {
       rq.response.statusCode = 200;
@@ -51,7 +49,7 @@ void main() {
 
   group('Smoke test', () {
     test('headers (un)folding', () async {
-      final response = await handler.handle(Request(
+      final response = await client.handleInterop(Request(
           'post',
           Uri(host: host, port: port, scheme: 'http'),
           Body.text('Привет', utf8),

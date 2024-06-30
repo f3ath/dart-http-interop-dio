@@ -1,17 +1,17 @@
 name: http_interop_dio
 description: Interop-compatible wrapper for Dio HTTP client
-version: 0.1.0
+version: 0.2.0
 repository: https://github.com/f3ath/dart-http-interop-dio
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
-  http_interop: ^1.0.0
+  http_interop: ^2.0.0
   dio: ^5.0.0
 
 dev_dependencies:
-  lints: ^3.0.0
+  lints: ^4.0.0
   test: ^1.21.1
   check_coverage: ^0.0.2
   cider: ^0.2.0
