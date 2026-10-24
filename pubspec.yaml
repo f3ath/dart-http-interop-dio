@@ -1,6 +1,8 @@
 name: http_interop_dio
-description: Interop-compatible wrapper for Dio HTTP client
-version: 0.2.0
+description: >-
+  Send http_interop requests through Dio with streamed request and response bodies,
+  while honoring Dio's client configuration and interceptors.
+version: 0.3.0
 repository: https://github.com/f3ath/dart-http-interop-dio
 
 environment:

@@ -6,8 +6,12 @@ import 'package:http_interop/http_interop.dart';
 import 'package:http_interop_dio/http_interop_dio.dart';
 
 void main() async {
-  final request =
-      Request('GET', Uri.parse('https://example.com'), Body.empty(), Headers());
+  final request = Request(
+    'GET',
+    Uri.parse('https://example.com'),
+    Body.empty(),
+    Headers(),
+  );
   final response = await dio.Dio().requestInterop(request);
   print('Status code: ${response.statusCode}');
   print('Headers: ${response.headers}');
