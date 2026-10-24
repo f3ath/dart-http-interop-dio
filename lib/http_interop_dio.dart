@@ -8,15 +8,15 @@ extension HttpClientAdapterExt on dio.HttpClientAdapter {
             method: request.method,
             data: request.body.bytes,
             headers: request.headers,
-            baseUrl: request.uri.toString()),
+            path: request.uri.toString()),
         request.body.bytes,
         null);
-    return Response(response.statusCode, Body.stream(response.stream),
+    return Response(response.statusCode, Body(response.stream),
         Headers.from(response.headers));
   }
 }
 
 extension DioExt on dio.Dio {
-  Future<Response> handleInterop(Request request) =>
+  Future<Response> requestInterop(Request request) =>
       httpClientAdapter.handleInterop(request);
 }

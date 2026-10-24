@@ -11,11 +11,10 @@ void main() {
   late HttpServer server;
   late dio.Dio client;
   final host = 'localhost';
-  final port = 8000;
 
   setUp(() async {
     client = dio.Dio();
-    server = await HttpServer.bind(host, port);
+    server = await HttpServer.bind(host, 0);
     server.listen((rq) async {
       rq.response.statusCode = 200;
       rq.response.headers.add('Content-Type', 'application/json');
@@ -47,12 +46,24 @@ void main() {
     return server.close();
   });
 
-  group('Smoke test', () {
+  group('Interop tests', () {
+    for (final target in ['/a//b', '/search?next=a//b']) {
+      test('preserves request URL $target', () async {
+        final uri = Uri.parse('http://$host:${server.port}$target');
+        final response = await client.requestInterop(
+            Request('GET', uri, Body.empty(), Headers()));
+        final json = await response.body.decodeJson();
+
+        expect(response.statusCode, equals(200));
+        expect(json['request']['uri'], equals(target));
+      });
+    }
+
     test('headers (un)folding', () async {
-      final response = await client.handleInterop(Request(
+      final response = await client.requestInterop(Request(
           'post',
-          Uri(host: host, port: port, scheme: 'http'),
-          Body.text('Привет', utf8),
+          Uri(host: host, port: server.port, scheme: 'http'),
+          Body.text('Привет'),
           Headers.from({
             'Accept-Encoding': ['deflate', 'gzip;q=1.0', '*;q=0.5']
           })));
